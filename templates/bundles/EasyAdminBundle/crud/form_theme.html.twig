@@ -1,0 +1,57 @@
+{% extends '@!EasyAdmin/crud/form_theme.html.twig' %}
+
+{% block form_row -%}
+
+    {% set row_attr = row_attr|merge({
+        class: row_attr.class|default('') ~ ' form-group',
+        style: 'display: grid'
+    }) %}
+
+    <div {% with { attr: row_attr } %}{{ block('attributes') }}{% endwith %}>
+        
+        <div class="text-left mb-4">{{- form_label(form) -}}</div>
+
+        <div class="form-widget">
+            {% set has_prepend_html = ea.field.prepend_html|default(null) is not null %}
+            {% set has_append_html = ea.field.append_html|default(null) is not null %}
+            {% set has_input_groups = has_prepend_html or has_append_html %}
+
+            {% if has_input_groups %}<div class="input-group">{% endif %}
+                {% if has_prepend_html %}
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">{{ ea.field.prepend_html|raw }}</span>
+                    </div>
+                {% endif %}
+
+                {{ form_widget(form) }}
+
+                {% if has_append_html %}
+                    <div class="input-group-append">
+                        <span class="input-group-text">{{ ea.field.append_html|raw }}</span>
+                    </div>
+                {% endif %}
+                {% if has_input_groups %}</div>{% endif %}
+
+            {% set nullable_fields_fqcn = [
+                'EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField',
+                'EasyCorp\Bundle\EasyAdminBundle\Field\DateField',
+                'EasyCorp\Bundle\EasyAdminBundle\Field\TimeField',
+            ] %}
+            {% if form.vars.ea_crud_form.ea_field.fieldFqcn|default(false) in nullable_fields_fqcn and ea.field.nullable|default(false) %}
+                <div class="nullable-control">
+                    <label>
+                        <input type="checkbox" {% if data is null %}checked="checked"{% endif %}>
+                        {{ 'label.nullable_field'|trans({}, 'EasyAdminBundle')}}
+                    </label>
+                </div>
+            {% endif %}
+
+            {% if ea.field.help|default(form.vars.help) != '' %}
+                <small class="form-help">{{ ea.field.help|default(form.vars.help|trans(domain = ea.i18n.translationDomain))|raw }}</small>
+            {% endif %}
+
+            {{- form_errors(form) -}}
+        </div>
+    </div>
+
+{% endblock %}

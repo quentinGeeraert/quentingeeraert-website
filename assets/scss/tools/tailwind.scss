@@ -1,0 +1,31 @@
+/* purgecss start ignore */
+@tailwind base;
+@tailwind components;
+/* purgecss end ignore */
+
+@tailwind utilities;
+
+.markdown > :first-child {
+  margin-top: 0;
+}
+.markdown > h1,
+.markdown > h2,
+h1.markdown,
+h2.markdown {
+  line-height: 1;
+  --text-opacity: 1;
+  color: #1a202c;
+  color: rgba(26, 32, 44, var(--text-opacity));
+  letter-spacing: -0.025em;
+}
+.markdown > h1,
+h1.markdown {
+  margin-bottom: 0.25rem;
+  font-weight: 500;
+  font-size: 1.875rem;
+}
+@media (min-width: 992px) {
+  .sticky\?lg\:h-screen {
+    height: 100vh !important;
+  }
+}

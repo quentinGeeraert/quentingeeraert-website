@@ -1,0 +1,59 @@
+<div class="bg-gray-100 dark:bg-blue-dark pt-16 lg:pt-0">
+    <div class="fixed z-50 bg-gray-100 dark:bg-blue-dark inset-x-0 top-0 border-b-2 border-gray-200 lg:border-b-0 lg:static flex items-center h-16">
+        <div class="w-full max-w-screen-xl relative mx-auto px-6">
+            <div class="flex items-center -mx-6">
+                <div class="lg:w-1/4 xl:w-1/5 pl-6 pr-6 lg:pr-8">
+                    <div class="flex items-center">
+                        <a class="block lg:mr-4" href="/"><img class="w-10 h-10 bg-gray-200 dark:bg-blue-dark rounded-lg p-1" src="{{ asset('build/images/logo.png') }}"></a>
+                        <span class="md:ml-2 lg:ml-1 w-auto hidden md:block font-medium border-b-2 border-blue-800 dark:text-white">Quentin GEERAERT</span>
+                    </div>
+                </div>
+                <div class="flex flex-grow min-w-0 lg:w-3/4 xl:w-4/5">
+                    <div class="w-full min-w-0 lg:px-6 xl:w-3/4 xl:px-12">
+                        <div class="relative">
+                            <button class="transition-colors duration-100 ease-in-out text-gray-600 py-2 pr-4 pl-10 block w-full appearance-none leading-normal border border-transparent rounded-lg focus:outline-none text-left select-none truncate bg-white dark:bg-gray-400 shadow-md">Search
+                                <span class="hidden sm:inline">the docs (Press "/" to focus)</span>
+                            </button>
+                            <div class="pointer-events-none absolute inset-y-0 left-0 pl-4 flex items-center">
+                                <svg class="fill-current pointer-events-none text-gray-600 w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20">
+                                    <path d="M12.9 14.32a8 8 0 1 1 1.41-1.41l5.35 5.33-1.42 1.42-5.33-5.34zM8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" id="sidebar-open" class="flex px-6 items-center lg:hidden text-gray-500 focus:outline-none focus:text-gray-700" aria-label="Open site navigation">
+                        <svg class="fill-current w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20">
+                            <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path>
+                        </svg>
+                    </button>
+                    <button type="button" id="sidebar-close" class="flex px-6 items-center lg:hidden text-gray-500 focus:outline-none focus:text-gray-700 hidden" aria-label="Close site navigation">
+                        <svg class="fill-current w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20">
+                            <path d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z"></path>
+                        </svg>
+                    </button>
+                    <div class="hidden lg:flex lg:items-center lg:justify-between xl:w-1/4 px-6">
+                        <div class="relative mr-4">
+                            <a href="{{ path('app_homepage') }}" class="bg-transparent text-gray-500 hover:text-gray-700 font-semibold py-2 border dark:border-gray-200 border-gray-900 px-4 rounded inline-flex items-center">
+                                <span>Home</span>
+                            </a>
+                        </div>
+                        <div class="flex justify-start items-center text-gray-500">
+                            <a class="block flex items-center hover:text-gray-700 mr-5" href="https://github.com/quentinGeeraert">
+                                <svg class="fill-current w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20">
+                                    <title>GitHub</title>
+                                    <path d="M10 0a10 10 0 0 0-3.16 19.49c.5.1.68-.22.68-.48l-.01-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.1.39-1.99 1.03-2.69a3.6 3.6 0 0 1 .1-2.64s.84-.27 2.75 1.02a9.58 9.58 0 0 1 5 0c1.91-1.3 2.75-1.02 2.75-1.02.55 1.37.2 2.4.1 2.64.64.7 1.03 1.6 1.03 2.69 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85l-.01 2.75c0 .26.18.58.69.48A10 10 0 0 0 10 0"></path>
+                                </svg>
+                            </a>
+                            <a class="block flex items-center hover:text-gray-700 mr-5" href="https://twitter.com/Qgeeraert">
+                                <svg class="fill-current w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20">
+                                    <title>Twitter</title>
+                                    <path d="M6.29 18.25c7.55 0 11.67-6.25 11.67-11.67v-.53c.8-.59 1.49-1.3 2.04-2.13-.75.33-1.54.55-2.36.65a4.12 4.12 0 0 0 1.8-2.27c-.8.48-1.68.81-2.6 1a4.1 4.1 0 0 0-7 3.74 11.65 11.65 0 0 1-8.45-4.3 4.1 4.1 0 0 0 1.27 5.49C2.01 8.2 1.37 8.03.8 7.7v.05a4.1 4.1 0 0 0 3.3 4.03 4.1 4.1 0 0 1-1.86.07 4.1 4.1 0 0 0 3.83 2.85A8.23 8.23 0 0 1 0 16.4a11.62 11.62 0 0 0 6.29 1.84"></path>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

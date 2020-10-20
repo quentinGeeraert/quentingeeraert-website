@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title 'Welcome!' %}
+		</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		{% block stylesheets %}
+			{{ encore_entry_link_tags('app') }}
+		{% endblock %}
+	</head>
+	<body class="lg:overflow-visible dark:bg-blue-regal-dark">
+
+		{% block header %}
+			{% include 'partials/header.html.twig' only %}
+		{% endblock %}
+
+		{% set is_gallery = ( (type is defined and type == 'gallery') == true ) %}
+
+		<div class="container mx-auto px-4">
+			<div class="w-full max-w-screen-xl mx-auto px-6">
+				<div class="lg:flex -mx-6">
+
+					{% include 'partials/sidebar.html.twig' %}
+
+					<div id="content-wrapper" class="min-h-screen w-full lg:static lg:max-h-full lg:overflow-visible lg:w-3/4 xl:w-4/5">
+						<div id="content">
+							<div id="app" class="flex">
+								<div class="pb-16 w-full pt-12">
+									<div class="markdown mb-6 px-6 max-w-3xl mx-auto lg:ml-0 lg:mr-auto xl:mx-0 xl:px-12 xl:w-3/4">
+										<div class="flex items-center markdown">
+											<h1 class="dark:text-white">
+												{{ h1 ?? (app.request.attributes.get('_route') | replace({'app_': ''})) | capitalize }}
+											</h1>
+										</div>
+									</div>
+									<div class="flex">
+										<div class="markdown px-6 xl:px-12 w-full {{ is_gallery ? '' : 'max-w-3xl mx-auto lg:ml-0 lg:mr-auto xl:mx-0 xl:w-3/4' }}">
+											{% block body %}{% endblock %}
+										</div>
+										{% if is_gallery == false %}
+											{% include 'partials/fixed_anchor_right.html.twig' only %}
+										{% endif %}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					{% block footer %}{% endblock %}
+
+				</div>
+			</div>
+		</div>
+
+		{% block javascripts %}
+			{{ encore_entry_script_tags('app') }}
+			<script type="text/javascript">
+				setPreferredColorScheme('dark');
+				{% if is_gallery == false %}
+					createAnchorLinksByTagName();
+				{% endif %}				
+			</script>
+		{% endblock %}
+
+	</body>
+</html>

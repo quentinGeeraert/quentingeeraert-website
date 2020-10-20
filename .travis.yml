@@ -1,0 +1,37 @@
+language: php
+dist: xenial
+os: linux
+
+cache:
+  yarn: true
+  directories:
+    - $HOME/.composer/cache
+    - $HOME/symfony-bridge/.phpunit
+
+services:
+  - mysql
+
+jobs:
+  fast_finish: true
+  include:
+    - php: 7.4.3
+    - php: 7.4.5
+    - php: 7.4.7
+
+before_install:
+  - cp .env.test .env
+  - composer self-update
+
+install:
+  - php -r "echo ini_get('memory_limit').PHP_EOL;"
+  - composer install --prefer-dist --no-interaction
+  - php ./bin/phpunit install
+  - npm install -g node@12.5.0
+  - npm install --loglevel=error
+  - npm run build
+
+script:
+  - make lint
+  - make test
+  - make phpstan
+  - composer validate --strict
