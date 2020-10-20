@@ -2,6 +2,7 @@
 
 namespace App\Controller\BackOffice;
 
+use App\Entity\Article;
 use App\Entity\ProjectPortfolio;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
@@ -40,6 +41,10 @@ class DashboardController extends AbstractDashboardController
     {
         return [
             MenuItem::linktoDashboard('Dashboard', 'fa fa-home'),
+
+            MenuItem::linkToCrud('Articles', 'fa fa-book', Article::class)
+                ->setQueryParameter('sortField', 'created_at')
+                ->setQueryParameter('sortDirection', 'DESC'),
 
             MenuItem::subMenu('Personal', 'fa fa-address-card')->setSubItems([
                 MenuItem::linkToCrud('Portfolio', 'fa fa-project-diagram', ProjectPortfolio::class)

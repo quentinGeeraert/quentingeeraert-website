@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Article;
 use App\Entity\ExtDatabase\Contact;
 use App\Entity\ProjectPortfolio;
 use App\Form\ContactType;
 use App\Notification\ContactNotification;
+use App\Repository\ArticleRepository;
 use App\Repository\ProjectPortfolioRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,6 +16,33 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DefaultController extends AbstractController
 {
+    /**
+     * @Route("/", name="app_homepage", methods={"GET"})
+     */
+    public function homepage(ArticleRepository $articleRepository): Response
+    {
+        $articles = $articleRepository->findBy(['is_online' => true], ['updated_at' => 'DESC'], 5);
+
+        return $this->render('default/homepage.html.twig', [
+            'articles' => $articles,
+        ]);
+    }
+
+    /**
+     * @Route("article/{slug}", name="app_article", methods={"GET"})
+     */
+    public function article(string $slug, ArticleRepository $articleRepository): Response
+    {
+        $article = $articleRepository->findOneBy(['slug' => $slug, 'is_online' => true]);
+        if ($article instanceof Article) {
+            return $this->render('default/article.html.twig', [
+                'article' => $article,
+                'h1' => $article->getTitle(),
+            ]);
+        }
+        throw $this->createNotFoundException('No article found for slug '.$slug);
+    }
+
     /**
      * @Route("portfolio/{slug?}", name="app_portfolio", methods={"GET"})
      *
