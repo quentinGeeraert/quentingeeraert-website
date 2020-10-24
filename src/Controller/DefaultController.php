@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Article;
 use App\Entity\ExtDatabase\Contact;
 use App\Entity\ProjectPortfolio;
 use App\Form\ContactType;
 use App\Notification\ContactNotification;
+use App\Repository\ArticleRepository;
 use App\Repository\ProjectPortfolioRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,6 +16,44 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DefaultController extends AbstractController
 {
+    /**
+     * @Route("/", name="app_homepage", methods={"GET"})
+     */
+    public function homepage(ArticleRepository $articleRepository): Response
+    {
+        $articles = $articleRepository->findBy(['is_online' => true], ['created_at' => 'DESC'], 5);
+
+        return $this->render('default/homepage.html.twig', [
+            'articles' => $articles,
+        ]);
+    }
+
+    /**
+     * @Route("articles/{slug?}", name="app_articles", methods={"GET"})
+     *
+     * @param string|null $slug
+     */
+    public function article($slug = null, ArticleRepository $articleRepository, Request $request): Response
+    {
+        if ($slug) {
+            $article = $articleRepository->findOneBy(['slug' => $slug, 'is_online' => true]);
+            if ($article instanceof Article) {
+                return $this->render('default/articles/show.html.twig', [
+                    'article' => $article,
+                    'h1' => $article->getTitle(),
+                ]);
+            }
+            throw $this->createNotFoundException('No article found for slug '.$slug);
+        }
+
+        $articles = $articleRepository->findBy(['is_online' => true], ['created_at' => 'DESC']);
+
+        return $this->render('default/articles/index.html.twig', [
+            'h1' => 'Articles',
+            'articles' => $articles,
+        ]);
+    }
+
     /**
      * @Route("portfolio/{slug?}", name="app_portfolio", methods={"GET"})
      *
@@ -24,7 +64,7 @@ class DefaultController extends AbstractController
         if ($slug) {
             $projectPortfolio = $projectPortfolioRepository->findOneBy(['slug' => $slug, 'is_online' => true]);
             if ($projectPortfolio instanceof ProjectPortfolio) {
-                return $this->render('default/portfolio_project.html.twig', [
+                return $this->render('default/portfolio/show.html.twig', [
                     'projectPortfolio' => $projectPortfolio,
                     'h1' => $projectPortfolio->getName(),
                 ]);
@@ -32,7 +72,7 @@ class DefaultController extends AbstractController
             throw $this->createNotFoundException('No project portfolio found for slug '.$slug);
         }
 
-        return $this->render('default/portfolio.html.twig', [
+        return $this->render('default/portfolio/index.html.twig', [
             'projects' => $projectPortfolioRepository->findOnline(),
             'type' => 'gallery',
         ]);

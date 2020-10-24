@@ -2,22 +2,21 @@
 
 namespace App\Controller\BackOffice\Crud;
 
-use App\Entity\ProjectPortfolio;
+use App\Entity\Article;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 
-class ProjectPortfolioCrudController extends AbstractCrudController
+class ArticleCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return ProjectPortfolio::class;
+        return Article::class;
     }
 
     public function configureCrud(Crud $crud): Crud
@@ -29,27 +28,12 @@ class ProjectPortfolioCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        $arrCategories = [
-            'learning', 'api', 'management', 'backend',
-            'design', 'laravel', 'symfony', 'cms',
-        ];
-
         return [
-            TextField::new('name'),
-            SlugField::new('slug')->setTargetFieldName('name'),
+            TextField::new('title'),
+            SlugField::new('slug')->setTargetFieldName('title'),
             TextEditorField::new('description'),
-
             CollectionField::new('pictures')->onlyOnForms(),
-
-            /* @phpstan-ignore-next-line */
-            ChoiceField::new('categories')
-                ->allowMultipleChoices()
-                ->setChoices(array_combine($arrCategories, $arrCategories))
-                ->onlyOnForms(),
-
-            TextEditorField::new('html_content')
-                ->setFormType(CKEditorType::class),
-
+            TextEditorField::new('html_content')->setFormType(CKEditorType::class),
             BooleanField::new('is_online'),
         ];
     }

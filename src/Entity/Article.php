@@ -2,17 +2,17 @@
 
 namespace App\Entity;
 
-use App\Repository\ProjectPortfolioRepository;
+use App\Repository\ArticleRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass=ProjectPortfolioRepository::class)
+ * @ORM\Entity(repositoryClass=ArticleRepository::class)
  * @ORM\HasLifecycleCallbacks
  * @UniqueEntity("slug")
  */
-class ProjectPortfolio
+class Article
 {
     /**
      * @var int
@@ -27,7 +27,7 @@ class ProjectPortfolio
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank()
      */
-    private $name;
+    private $title;
 
     /**
      * @var string
@@ -47,12 +47,6 @@ class ProjectPortfolio
      * @ORM\Column(type="array")
      */
     private $pictures = [];
-
-    /**
-     * @var array<mixed>
-     * @ORM\Column(type="array")
-     */
-    private $categories = [];
 
     /**
      * @var bool
@@ -83,14 +77,14 @@ class ProjectPortfolio
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getTitle(): ?string
     {
-        return $this->name;
+        return $this->title;
     }
 
-    public function setName(string $name): self
+    public function setTitle(string $title): self
     {
-        $this->name = $name;
+        $this->title = $title;
 
         return $this;
     }
@@ -133,24 +127,6 @@ class ProjectPortfolio
     public function setPictures(array $pictures): self
     {
         $this->pictures = $pictures;
-
-        return $this;
-    }
-
-    /**
-     * @return array<mixed>|null
-     */
-    public function getCategories(): ?array
-    {
-        return $this->categories;
-    }
-
-    /**
-     * @param array<mixed> $categories
-     */
-    public function setCategories(array $categories): self
-    {
-        $this->categories = $categories;
 
         return $this;
     }
