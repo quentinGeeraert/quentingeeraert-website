@@ -43,6 +43,12 @@ class Article
     private $description;
 
     /**
+     * @var array<mixed>
+     * @ORM\Column(type="array")
+     */
+    private $pictures = [];
+
+    /**
      * @var bool
      * @ORM\Column(type="boolean")
      */
@@ -103,6 +109,24 @@ class Article
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return array<mixed>|null
+     */
+    public function getPictures(): ?array
+    {
+        return $this->pictures;
+    }
+
+    /**
+     * @param array<mixed> $pictures
+     */
+    public function setPictures(array $pictures): self
+    {
+        $this->pictures = $pictures;
 
         return $this;
     }

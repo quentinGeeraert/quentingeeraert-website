@@ -6,6 +6,7 @@ use App\Entity\Article;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -20,7 +21,9 @@ class ArticleCrudController extends AbstractCrudController
 
     public function configureCrud(Crud $crud): Crud
     {
-        return $crud->addFormTheme('@FOSCKEditor/Form/ckeditor_widget.html.twig');
+        return $crud
+            ->addFormTheme('@FOSCKEditor/Form/ckeditor_widget.html.twig')
+            ->setDefaultSort(['created_at' => 'DESC']);
     }
 
     public function configureFields(string $pageName): iterable
@@ -29,6 +32,7 @@ class ArticleCrudController extends AbstractCrudController
             TextField::new('title'),
             SlugField::new('slug')->setTargetFieldName('title'),
             TextEditorField::new('description'),
+            CollectionField::new('pictures')->onlyOnForms(),
             TextEditorField::new('html_content')->setFormType(CKEditorType::class),
             BooleanField::new('is_online'),
         ];

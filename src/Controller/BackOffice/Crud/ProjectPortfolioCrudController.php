@@ -22,7 +22,9 @@ class ProjectPortfolioCrudController extends AbstractCrudController
 
     public function configureCrud(Crud $crud): Crud
     {
-        return $crud->addFormTheme('@FOSCKEditor/Form/ckeditor_widget.html.twig');
+        return $crud
+            ->addFormTheme('@FOSCKEditor/Form/ckeditor_widget.html.twig')
+            ->setDefaultSort(['created_at' => 'DESC']);
     }
 
     public function configureFields(string $pageName): iterable
