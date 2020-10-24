@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Entities\ExtDabatase;
+namespace App\Tests\Entities\ExtDatabase;
 
 use App\Entity\ExtDatabase\Contact;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
