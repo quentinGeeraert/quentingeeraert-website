@@ -3,6 +3,7 @@
 namespace App\Controller\BackOffice;
 
 use App\Entity\Article;
+use App\Entity\Experience;
 use App\Entity\ProjectPortfolio;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
@@ -45,6 +46,7 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToCrud('Articles', 'fa fa-book', Article::class),
 
             MenuItem::subMenu('Personal', 'fa fa-address-card')->setSubItems([
+                MenuItem::linkToCrud('Experiences', 'fa fa-project-diagram', Experience::class),
                 MenuItem::linkToCrud('Portfolio', 'fa fa-project-diagram', ProjectPortfolio::class),
             ]),
         ];
