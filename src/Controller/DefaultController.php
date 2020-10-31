@@ -8,6 +8,7 @@ use App\Entity\ProjectPortfolio;
 use App\Form\ContactType;
 use App\Notification\ContactNotification;
 use App\Repository\ArticleRepository;
+use App\Repository\ExperienceRepository;
 use App\Repository\ProjectPortfolioRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,7 +34,7 @@ class DefaultController extends AbstractController
      *
      * @param string|null $slug
      */
-    public function article($slug = null, ArticleRepository $articleRepository, Request $request): Response
+    public function article($slug = null, ArticleRepository $articleRepository): Response
     {
         if ($slug) {
             $article = $articleRepository->findOneBy(['slug' => $slug, 'is_online' => true]);
@@ -51,6 +52,18 @@ class DefaultController extends AbstractController
         return $this->render('default/articles/index.html.twig', [
             'h1' => 'Articles',
             'articles' => $articles,
+        ]);
+    }
+
+    /**
+     * @Route("experiences", name="app_experiences", methods={"GET"})
+     */
+    public function experience(ExperienceRepository $experienceRepository): Response
+    {
+        $experiences = $experienceRepository->findBy(['user' => 1]);
+
+        return $this->render('default/experiences.html.twig', [
+            'experiences' => $experiences,
         ]);
     }
 
