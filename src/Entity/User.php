@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -40,6 +42,17 @@ class User implements UserInterface
      * @Assert\NotBlank()
      */
     private $password;
+
+    /**
+     * @var Collection|Skill[]
+     * @ORM\ManyToMany(targetEntity=Skill::class, mappedBy="users")
+     */
+    private $skills;
+
+    public function __construct()
+    {
+        $this->skills = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -101,6 +114,33 @@ class User implements UserInterface
     public function setPassword(string $password): self
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Skill[]
+     */
+    public function getSkills(): Collection
+    {
+        return $this->skills;
+    }
+
+    public function addSkill(Skill $skill): self
+    {
+        if (!$this->skills->contains($skill)) {
+            $this->skills[] = $skill;
+            $skill->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSkill(Skill $skill): self
+    {
+        if ($this->skills->removeElement($skill)) {
+            $skill->removeUser($this);
+        }
 
         return $this;
     }
