@@ -45,6 +45,7 @@ class DefaultControllerTest extends WebTestCase
         return [
             ['app_homepage'],
             ['app_experiences'],
+            ['app_skills'],
             ['app_portfolio'],
             ['app_contact'],
         ];

@@ -5,11 +5,13 @@ namespace App\Controller;
 use App\Entity\Article;
 use App\Entity\ExtDatabase\Contact;
 use App\Entity\ProjectPortfolio;
+use App\Entity\User;
 use App\Form\ContactType;
 use App\Notification\ContactNotification;
 use App\Repository\ArticleRepository;
 use App\Repository\ExperienceRepository;
 use App\Repository\ProjectPortfolioRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -64,6 +66,23 @@ class DefaultController extends AbstractController
 
         return $this->render('default/experiences.html.twig', [
             'experiences' => $experiences,
+        ]);
+    }
+
+    /**
+     * @Route("skills", name="app_skills", methods={"GET"})
+     */
+    public function skill(UserRepository $userRepository): Response
+    {
+        $skills = [];
+        $user = $userRepository->findOneBy(['id' => 1]);
+
+        if ($user instanceof User) {
+            $skills = $user->getSkills();
+        }
+
+        return $this->render('default/skills.html.twig', [
+            'skills' => $skills,
         ]);
     }
 
