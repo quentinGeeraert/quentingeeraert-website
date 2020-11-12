@@ -3,10 +3,13 @@
 namespace App\Tests\Entities;
 
 use App\Entity\Article;
+use App\Tests\Entities\traits\TimestampsTestTrait;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class ArticleTest extends KernelTestCase
 {
+    use TimestampsTestTrait;
+
     /** ------------------------------- TESTS ------------------------------- */
     public function testValidEntity(): void
     {
@@ -50,6 +53,20 @@ class ArticleTest extends KernelTestCase
         $this->assertHasErrors($this->getEntity()->setHtmlContent(null), 0);
     }
 
+    public function testGettersForEntity(): void
+    {
+        self::bootKernel();
+        $entity = $this->getEntity();
+
+        $this->assertEquals(null, $entity->getId());
+        $this->assertEquals('Article', $entity->getTitle());
+        $this->assertEquals('article-slug', $entity->getSlug());
+        $this->assertEquals('lorem ipsum', $entity->getDescription());
+        $this->assertEquals([], $entity->getPictures());
+        $this->assertEquals(false, $entity->getIsOnline());
+        $this->assertEquals(null, $entity->getHtmlContent());
+    }
+
     /** ------------------------------- METHODS ------------------------------- */
 
     /**
@@ -68,13 +85,14 @@ class ArticleTest extends KernelTestCase
 
     private function getEntity(): Article
     {
-        $projectPortfolio = (new Article())
+        $article = (new Article())
             ->setTitle('Article')
             ->setSlug('article-slug')
             ->setDescription('lorem ipsum')
+            ->setPictures([])
             ->setIsOnline(false)
             ->setHtmlContent(null);
 
-        return $projectPortfolio;
+        return $article;
     }
 }

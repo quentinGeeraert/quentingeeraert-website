@@ -31,4 +31,5 @@ yarn-error.log
 
 ###> others ###
 php.ini
+/coverage/
 ###< others ###

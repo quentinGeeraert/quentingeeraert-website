@@ -3,10 +3,13 @@
 namespace App\Tests\Entities;
 
 use App\Entity\ProjectPortfolio;
+use App\Tests\Entities\traits\TimestampsTestTrait;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class ProjectPortfolioTest extends KernelTestCase
 {
+    use TimestampsTestTrait;
+
     /** ------------------------------- TESTS ------------------------------- */
     public function testValidEntity(): void
     {
@@ -60,6 +63,24 @@ class ProjectPortfolioTest extends KernelTestCase
     {
         self::bootKernel();
         $this->assertHasErrors($this->getEntity()->setHtmlContent(null), 0);
+    }
+
+    public function testGettersForEntity(): void
+    {
+        self::bootKernel();
+        $entity = $this->getEntity();
+
+        $this->assertEquals(null, $entity->getId());
+
+        $this->assertEquals('ProjectPortfolio', $entity->getName());
+        $this->assertEquals('project-portfolio', $entity->getSlug());
+
+        $this->assertEquals('lorem ipsum', $entity->getDescription());
+        $this->assertEquals(['image1.png', 'image2.png'], $entity->getPictures());
+        $this->assertEquals(['cat1', 'cat2', 'cat3'], $entity->getCategories());
+
+        $this->assertEquals(false, $entity->getIsOnline());
+        $this->assertEquals(null, $entity->getHtmlContent());
     }
 
     /** ------------------------------- METHODS ------------------------------- */

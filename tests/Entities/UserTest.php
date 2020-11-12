@@ -2,6 +2,7 @@
 
 namespace App\Tests\Entities;
 
+use App\Entity\Skill;
 use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -36,6 +37,40 @@ class UserTest extends KernelTestCase
     {
         self::bootKernel();
         $this->assertHasErrors($this->getEntity()->setPassword(''), 1);
+    }
+
+    public function testGettersForEntity(): void
+    {
+        self::bootKernel();
+        $entity = $this->getEntity();
+
+        $this->assertEquals(null, $entity->getId());
+
+        $email = 'email@domain.com';
+
+        $this->assertEquals($email, $entity->getEmail());
+        $this->assertEquals($email, $entity->getUsername());
+        $this->assertEquals(['ROLE_USER'], $entity->getRoles());
+        $this->assertNotEmpty($entity->getPassword());
+        $this->assertEmpty($entity->getSkills());
+
+        /* @phpstan-ignore-next-line */
+        $this->assertNull($entity->eraseCredentials());
+        $this->assertEquals($email, $entity->__toString());
+    }
+
+    public function testSkillMethods(): void
+    {
+        self::bootKernel();
+        $entity = $this->getEntity();
+        $skill = new Skill();
+
+        $entity->addSkill($skill);
+        $this->assertContains($skill, $entity->getSkills());
+        $this->assertNotEmpty($entity->getSkills());
+
+        $entity->removeSkill($skill);
+        $this->assertEmpty($entity->getSkills());
     }
 
     /** ------------------------------- METHODS ------------------------------- */
