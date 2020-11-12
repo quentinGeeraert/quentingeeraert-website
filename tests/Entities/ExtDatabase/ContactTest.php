@@ -86,6 +86,16 @@ class ContactTest extends KernelTestCase
         $this->assertHasErrors($this->getEntity()->setMessage('123456789'), 1);
     }
 
+    public function testGettersForEntity(): void
+    {
+        self::bootKernel();
+        $entity = $this->getEntity();
+        $this->assertEquals('QGT', $entity->getLastname());
+        $this->assertEquals('Quentin', $entity->getFirstname());
+        $this->assertEquals('lorem ipsum', $entity->getMessage());
+        $this->assertEquals('email@domain.com', $entity->getEmail());
+    }
+
     /** ------------------------------- METHODS ------------------------------- */
 
     /**

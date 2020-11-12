@@ -3,6 +3,7 @@
 namespace App\Tests\Entities;
 
 use App\Entity\Skill;
+use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class SkillTest extends KernelTestCase
@@ -44,6 +45,32 @@ class SkillTest extends KernelTestCase
         $this->assertHasErrors($this->getEntity()->setDescription(null), 0);
     }
 
+    public function testGettersForEntity(): void
+    {
+        self::bootKernel();
+        $entity = $this->getEntity();
+
+        $this->assertEmpty($entity->getUsers());
+        $this->assertEquals(null, $entity->getId());
+        $this->assertEquals('PHP', $entity->getName());
+        $this->assertEquals('image.png', $entity->getLogo());
+        $this->assertEquals(null, $entity->getDescription());
+    }
+
+    public function testUserMethods(): void
+    {
+        self::bootKernel();
+        $entity = $this->getEntity();
+        $user = new User();
+
+        $entity->addUser($user);
+        $this->assertContains($user, $entity->getUsers());
+        $this->assertNotEmpty($entity->getUsers());
+
+        $entity->removeUser($user);
+        $this->assertEmpty($entity->getUsers());
+    }
+
     /** ------------------------------- METHODS ------------------------------- */
 
     /**
@@ -62,11 +89,11 @@ class SkillTest extends KernelTestCase
 
     private function getEntity(): Skill
     {
-        $projectPortfolio = (new Skill())
+        $skill = (new Skill())
             ->setName('PHP')
             ->setLogo('image.png')
             ->setDescription(null);
 
-        return $projectPortfolio;
+        return $skill;
     }
 }

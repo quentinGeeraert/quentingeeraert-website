@@ -4,11 +4,14 @@ namespace App\Tests\Entities;
 
 use App\Entity\Experience;
 use App\Entity\User;
+use App\Tests\Entities\traits\TimestampsTestTrait;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class ExperienceTest extends KernelTestCase
 {
+    use TimestampsTestTrait;
+
     /** ------------------------------- TESTS ------------------------------- */
     public function testValidEntity(): void
     {
@@ -44,6 +47,26 @@ class ExperienceTest extends KernelTestCase
     {
         self::bootKernel();
         $this->assertHasErrors($this->getEntity()->setLogo(''), 1);
+    }
+
+    public function testGettersForEntity(): void
+    {
+        self::bootKernel();
+        $entity = $this->getEntity();
+
+        $this->assertEquals(null, $entity->getId());
+        $this->assertNotEmpty($entity->getUser());
+
+        $this->assertNotEmpty($entity->getStartDate());
+        $this->assertEquals(null, $entity->getEndDate());
+
+        $this->assertEquals('title', $entity->getTitle());
+        $this->assertEquals('company', $entity->getCompany());
+        $this->assertEquals('employment', $entity->getEmploymentType());
+
+        $this->assertEquals('Lille, France', $entity->getLocation());
+        $this->assertEquals('lorem ipsum', $entity->getDescription());
+        $this->assertEquals('logo.png', $entity->getLogo());
     }
 
     /** ------------------------------- METHODS ------------------------------- */

@@ -50,6 +50,7 @@
         "twig/twig": "^2.12|^3.0"
     },
     "require-dev": {
+        "dama/doctrine-test-bundle": "^6.4",
         "phpstan/phpstan": "^0.12.40",
         "phpstan/phpstan-doctrine": "^0.12.19",
         "phpstan/phpstan-mockery": "^0.12.7",
