@@ -18,12 +18,9 @@ use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
 use Symfony\Component\Security\Guard\PasswordAuthenticatedInterface;
-use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
 class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements PasswordAuthenticatedInterface
 {
-    use TargetPathTrait;
-
     public const LOGIN_ROUTE = 'app_login';
 
     /**
@@ -110,10 +107,6 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
      */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey): RedirectResponse
     {
-        if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
-            return new RedirectResponse($targetPath);
-        }
-
         return new RedirectResponse($this->urlGenerator->generate('bo_dashboard'));
     }
 

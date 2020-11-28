@@ -2,13 +2,13 @@
 
 namespace App\Tests\Controllers;
 
+use App\Entity\User;
 use App\Entity\Article;
 use App\Entity\ProjectPortfolio;
-use App\Entity\User;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class DefaultControllerTest extends WebTestCase
 {
@@ -174,6 +174,26 @@ class DefaultControllerTest extends WebTestCase
 
         $client->request(Request::METHOD_GET, $router->generate('app_portfolio', ['slug' => $projectPortfolio->getSlug()]));
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
+    }
+
+    /** ------------------------------- CONTACT ------------------------------- */
+    public function testContactPage(): void
+    {
+        $client = self::createClient();
+        $client->request('GET', '/contact');
+        $client->submitForm('Send', [
+            'contact[firstname]' => 'Quentin',
+            'contact[lastname]' => 'QGT',
+            'contact[email]' => 'email@domain.com',
+            'contact[message]' => 'This is a test message',
+        ]);
+
+        $this->assertResponseStatusCodeSame(Response::HTTP_FOUND);
+
+        $client->followRedirect();
+
+        $this->assertResponseStatusCodeSame(Response::HTTP_OK);
+        $this->assertSelectorTextContains('.shadow-md.bg-blue-100', 'Your request has been sent');
     }
 
     /** ------------------------------- METHODS ------------------------------- */

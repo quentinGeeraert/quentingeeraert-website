@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\BackOffice\Crud;
+namespace App\Controller\EasyAdmin\Crud;
 
 use App\Entity\Article;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -32,7 +32,7 @@ class ArticleCrudController extends AbstractCrudController
             TextField::new('title'),
             SlugField::new('slug')->setTargetFieldName('title'),
             TextEditorField::new('description'),
-            CollectionField::new('pictures')->onlyOnForms(),
+            CollectionField::new('pictures')->setRequired(false)->onlyOnForms(),
             TextEditorField::new('html_content')->setFormType(CKEditorType::class),
             BooleanField::new('is_online'),
         ];

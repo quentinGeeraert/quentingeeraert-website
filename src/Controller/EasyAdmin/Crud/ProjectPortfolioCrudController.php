@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\BackOffice\Crud;
+namespace App\Controller\EasyAdmin\Crud;
 
 use App\Entity\ProjectPortfolio;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
