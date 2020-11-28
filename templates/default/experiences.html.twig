@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    
+    <div class="relative m-8">
+        <div class="border-r-2 border-gray-200 border-dotted absolute h-full top-0 z-0" style="left: 7px"></div>
+        <ul class="list-none m-0 p-0">
+            
+            {% for experience in experiences %}
+
+            <li class="mb-8 text-gray-600 dark:text-gray-500">
+                <div class="flex items-center mb-1">
+                    <div class="bg-indigo-600 rounded-full h-4 w-4 border-gray-200 border-2" style="z-index: 1">
+                    </div>
+                    <div class="mb-4 flex-1 ml-4 font-medium flex items-center">
+                        <img class="h-10 pr-4" src="{{ experience.logo }}" />
+                        <div>
+                            <div>
+                                {{ experience.title }}
+                                <i class="text-sm">
+                                    {{ 
+                                        '(' ~ experience.startDate | format_datetime('medium', 'none', locale='en') ~ ' - ' ~ 
+                                        (experience.endDate ? experience.endDate | format_datetime('medium', 'none', locale='en') : 'Present') ~ ')'
+                                    }}
+                                </i>
+                            </div>
+                            <div class="text-xs">
+                                {{ experience.company ~ ' - ' ~ experience.employmentType ~ ' - ' ~ experience.location }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ml-12">
+                    {{ experience.description | raw }}
+                </div>
+            </li>
+
+            {% endfor %}
+
+        </ul>
+    </div>
+
+{% endblock %}

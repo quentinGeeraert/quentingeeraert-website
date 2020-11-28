@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Quentin Geeraert - {{ article.title }} 
+{% endblock %}
+
+{% block body %}
+    <div class="mt-6 sm:text-lg md:text-xl xl:text-lg text-gray-600 dark:text-gray-500">
+        {{ article.getHtmlContent() | raw }}
+    </div>
+{% endblock %}

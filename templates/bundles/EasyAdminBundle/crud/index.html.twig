@@ -1,0 +1,98 @@
+{% extends '@!EasyAdmin/crud/index.html.twig' %}
+
+{% block table_head %}
+
+    <tr>
+        {% if has_batch_actions %}
+            <th width="1px"><span><input type="checkbox" class="form-batch-checkbox-all"></span></th>
+        {% endif %}
+
+        {% for field in entities|first.fields ?? [] %}
+            {% set is_sorting_field = ea.search.isSortingField(field.property) %}
+            {% set next_sort_direction = is_sorting_field ? (ea.search.sortDirection(field.property) == 'DESC' ? 'ASC' : 'DESC') : 'DESC' %}
+            {% set column_icon = is_sorting_field ? (next_sort_direction == 'DESC' ? 'fa-arrow-up' : 'fa-arrow-down') : 'fa-sort' %}
+
+            <th class="{{ is_sorting_field ? 'sorted' }} {{ field.isVirtual ? 'field-virtual' }} text-{{ field.textAlign }} w-1/2 px-4 py-2" dir="{{ ea.i18n.textDirection }}">
+                {% if field.isSortable %}
+                    <a href="{{ ea_url({ page: 1, sort: { (field.property): next_sort_direction } }).includeReferrer() }}">
+                        {{ field.label|raw }} <i class="fa fa-fw {{ column_icon }}"></i>
+                    </a>
+                {% else %}
+                    <span>{{ field.label|raw }}</span>
+                {% endif %}
+            </th>
+        {% endfor %}
+
+        <th {% if ea.crud.showEntityActionsAsDropdown %}width="10px"{% endif %} dir="{{ ea.i18n.textDirection }}" class="w-1/2 px-4 py-2">
+            <span class="text-transparent">{{ 'action.entity_actions'|trans(ea.i18n.translationParameters, 'EasyAdminBundle') }}</span>
+        </th>
+    </tr>
+
+{% endblock %}
+
+{% block table_body %}
+    {% for entity in entities %}
+        {% if not entity.isAccessible %}
+            {% set some_results_are_hidden = true %}
+        {% else %}
+            <tr data-id="{{ entity.primaryKeyValueAsString }}" class="{{ loop.index % 2 == 0 ? 'bg-gray-100' }}">
+                {% if has_batch_actions %}
+                    <td><input type="checkbox" class="form-batch-checkbox" value="{{ entity.primaryKeyValue }}"></td>
+                {% endif %}
+
+                {% for field in entity.fields %}
+                    <td class="{{ field.property == sort_field_name ? 'sorted' }} text-{{ field.textAlign }} {{ field.cssClass }}" dir="{{ ea.i18n.textDirection }}">
+                        {{ include(field.templatePath, { field: field, entity: entity }, with_context = false) }}
+                    </td>
+                {% endfor %}
+
+                {% block entity_actions %}
+                    <td class="actions">
+                        {% if not ea.crud.showEntityActionsAsDropdown %}
+                            {% for action in entity.actions %}
+                                {{ include(action.templatePath, { action: action, entity: entity, isIncludedInDropdown: ea.crud.showEntityActionsAsDropdown }, with_context = false) }}
+                            {% endfor %}
+                        {% else %}
+                            <div class="dropdown dropdown-actions">
+                                <a class="dropdown-toggle btn btn-secondary btn-sm" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-fw fa-ellipsis-h"></i>
+                                </a>
+
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    {% for action in entity.actions %}
+                                        {{ include(action.templatePath, { action: action, isIncludedInDropdown: ea.crud.showEntityActionsAsDropdown }, with_context = false) }}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endif %}
+                    </td>
+                {% endblock entity_actions %}
+            </tr>
+
+        {% endif %}
+    {% else %}
+        <tr>
+            <td class="no-results" colspan="100">
+                {{ 'datagrid.no_results'|trans(ea.i18n.translationParameters, 'EasyAdminBundle') }}
+            </td>
+        </tr>
+    {% endfor %}
+
+    {% if some_results_are_hidden %}
+        <tr class="datagrid-row-empty">
+            <td class="text-center" colspan="{{ entities|first.fields|length + 1 }}">
+                <span class="datagrid-row-empty-message"><i class="fa fa-lock mr-1"></i> {{ 'datagrid.hidden_results'|trans({}, 'EasyAdminBundle') }}</span>
+            </td>
+        </tr>
+    {% endif %}
+
+    <script type="text/javascript">
+        $(function() {
+            const allContentPanelBody = document.querySelectorAll('.content-panel-body');
+            for (i = 0; i < allContentPanelBody.length; i++) {
+                allContentPanelBody[i].classList.add('overflow-x-auto');
+            }
+        });
+    </script>
+
+{% endblock %}

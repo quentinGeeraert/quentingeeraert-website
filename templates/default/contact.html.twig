@@ -1,0 +1,121 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Quentin Geeraert - Contact 
+{% endblock %}
+
+{% block body %}
+
+    <style>
+        form ul li {
+            font-size: .75rem;
+            color: #f56565;
+            font-style: italic;
+            margin-bottom: 0.375rem;
+        }
+    </style>
+
+    {% for message in app.flashes('success') %}
+        <div class="shadow-md bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3 mb-8" role="alert">
+            <p class="font-bold">Informational message</p>
+            <p class="text-sm">{{ message | raw }}</p>
+        </div>
+    {% endfor %}
+
+    {% if not form.vars.valid %}
+        <div role="alert" class="shadow-md mb-8">
+            <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
+                Oups
+            </div>
+            <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
+                {% set errorCaptcha = (form.vars.errors | filter(e => e.origin.name == 'captcha') | first) %}
+                <p>
+                    {{ 
+                        (
+                            errorCaptcha ?
+                            (errorCaptcha.message ~ '<noscript>, please enable javascript to continue</noscript>') :
+                            ('Your form contains errors, please correct it before resubmitting')
+                        ) | raw
+                    }}
+                </p>
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="grid md:grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-4">
+
+        {% set classAttr = 'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white' %}
+        {% set classLabelAttr = 'dark:text-white block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' %}
+
+        {{ form_start(form, {attr: {class: 'w-full bg-white dark:bg-gray-800 rounded-lg p-3'}}) }}
+            <div class="flex flex-wrap -mx-3 p-3">
+                
+                <!-- Firstname -->
+                {{ form_row(form.firstname, {
+                    'attr': {
+                        'class': classAttr,
+                        'placeholder': 'Firstname',
+                        'required': true,
+                    },
+                    'label_attr': { 'class': classLabelAttr, },
+                    'row_attr': { 'class': 'w-full md:w-1/2 px-3 mb-6', }
+                }) }}
+
+                <!-- Lastname -->
+                {{ form_row(form.lastname, {
+                    'attr': {
+                        'class': classAttr,
+                        'placeholder': 'Lastname',
+                        'required': true,
+                    },
+                    'label_attr': { 'class': classLabelAttr, },
+                    'row_attr': { 'class': 'w-full md:w-1/2 px-3 mb-6', }
+                }) }}
+
+                <!-- Email -->
+                {{ form_row(form.email, {
+                    'attr': {
+                        'class': classAttr,
+                        'placeholder': 'email@domain.com',
+                        'required': true,
+                    },
+                    'label_attr': { 'class': classLabelAttr, },
+                    'row_attr': { 'class': 'w-full md:w-2/2 px-3 mb-6', }
+                }) }}
+                
+                <!-- Message -->
+                {{ form_row(form.message, {
+                    'attr': {
+                        'class': classAttr,
+                        'placeholder': 'Write your message here',
+                        'required': true,
+                    },
+                    'label_attr': { 'class': classLabelAttr, },
+                    'row_attr': { 'class': 'w-full md:w-2/2 px-3 mb-2', }
+                }) }}
+
+                <!-- Captcha -->
+                {{ form_row(form.captcha) }}
+
+                <div class="w-full md:w-2/2 px-3 flex justify-center mb-2">
+                    <ul>
+                        <li class="dark:text-white text-gray-700">
+                            This form is protected by reCAPTCHA version 3, use of this feature is subject to Google's 
+                            <a href="https://policies.google.com/privacy" target="_blank" rel="noreferrer" class="border-b-2 border-blue-500">Privacy Policy</a> and 
+                            <a href="https://policies.google.com/terms" target="_blank" rel="noreferrer" class="border-b-2 border-blue-500">Terms of Service</a>.
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Submit -->
+                <div class="w-full md:w-2/2 px-3 flex justify-center">
+                    <button type="submit" class="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
+                        Send
+                    </button>
+                </div>
+
+            </div>
+        {{ form_end(form) }}
+
+    </div>
+{% endblock %}

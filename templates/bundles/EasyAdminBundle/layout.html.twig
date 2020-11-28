@@ -1,0 +1,169 @@
+{% extends '@!EasyAdmin/layout.html.twig' %}
+
+{% block body %}
+
+    <style>
+        label, legend { font-size: 1.125rem !important; font-weight: 500 !important; }
+        legend { text-align: inherit !important; margin-bottom: -1rem !important; }
+        .treeview .treeview-icon { top: 12px; right: 6px; }
+        .field-boolean .form-widget { margin-left: 0; }
+        .form-group .col-form-label.required:after, .form-group label.required:after { z-index: 1 !important; }
+    </style>
+
+    {% set has_page_footer = false %}
+
+    <body id="{% block body_id %}{% endblock %}" class="ea lg:overflow-visible dark:bg-blue-regal-dark {% block body_class %}{% endblock %}">
+
+        <div class="bg-gray-100 dark:bg-blue-dark pt-24 lg:pt-0">
+            <div class="fixed z-50 bg-gray-100 dark:bg-blue-dark inset-x-0 top-0 border-b-2 border-gray-200 lg:border-b-0 lg:static flex items-center">
+                <div class="w-full max-w-screen-xl relative mx-auto px-6">
+                    <div class="lg:border-b-2 lg:border-gray-200 h-24 flex flex-col justify-center">
+                        <div class="flex items-center -mx-6">
+                            <div class="lg:w-1/4 xl:w-1/5 pl-6 pr-6 lg:pr-8">
+                                <div class="flex items-center">
+                                    <a class="block lg:mr-4" href="/"><img class="w-10 h-10 bg-gray-200 dark:bg-blue-dark rounded-lg p-1" src="/build/images/logo.png"></a>
+                                    <span class="md:ml-2 lg:ml-1 w-auto hidden md:block font-medium border-b-2 border-blue-800 dark:text-white">Quentin GEERAERT</span>
+                                </div>
+                            </div>
+                            <div class="flex flex-grow min-w-0 lg:w-3/4 xl:w-4/5">
+                                <div class="w-full min-w-0 lg:px-6 xl:w-3/4 xl:px-12">
+                                    <div class="relative">
+                                        <button class="transition-colors duration-100 ease-in-out text-gray-600 py-2 pr-4 pl-10 block w-full appearance-none leading-normal border border-transparent rounded-lg focus:outline-none text-left select-none truncate bg-white dark:bg-gray-400 shadow-md">Search
+                                            <span class="hidden sm:inline">the docs (Press "/" to focus)</span>
+                                        </button>
+                                        <div class="pointer-events-none absolute inset-y-0 left-0 pl-4 flex items-center">
+                                            <svg class="fill-current pointer-events-none text-gray-600 w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                <path d="M12.9 14.32a8 8 0 1 1 1.41-1.41l5.35 5.33-1.42 1.42-5.33-5.34zM8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12z"></path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="button" id="sidebar-open" class="flex px-6 items-center lg:hidden text-gray-500 focus:outline-none focus:text-gray-700" aria-label="Open site navigation">
+                                    <svg class="fill-current w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                        <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path>
+                                    </svg>
+                                </button>
+                                <button type="button" id="sidebar-close" class="flex px-6 items-center lg:hidden text-gray-500 focus:outline-none focus:text-gray-700 hidden" aria-label="Close site navigation">
+                                    <svg class="fill-current w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                        <path d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z"></path>
+                                    </svg>
+                                </button>
+                                <div class="hidden lg:flex lg:items-center lg:justify-between xl:w-1/4 px-6">
+                                    <div class="relative mr-4">
+                                        <a href="/logout" class="bg-transparent text-gray-500 hover:text-gray-700 font-semibold py-2 border dark:border-gray-200 border-gray-900 px-4 rounded inline-flex items-center">
+                                            <span>Logout</span>
+                                        </a>
+                                    </div>
+                                    <div class="flex justify-start items-center text-gray-500">
+                                        <a class="block flex items-center hover:text-gray-700 mr-5" href="https://github.com/quentinGeeraert">
+                                            <svg class="fill-current w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                <title>GitHub</title>
+                                                <path d="M10 0a10 10 0 0 0-3.16 19.49c.5.1.68-.22.68-.48l-.01-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.1.39-1.99 1.03-2.69a3.6 3.6 0 0 1 .1-2.64s.84-.27 2.75 1.02a9.58 9.58 0 0 1 5 0c1.91-1.3 2.75-1.02 2.75-1.02.55 1.37.2 2.4.1 2.64.64.7 1.03 1.6 1.03 2.69 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85l-.01 2.75c0 .26.18.58.69.48A10 10 0 0 0 10 0"></path>
+                                            </svg>
+                                        </a>
+                                        <a class="block flex items-center hover:text-gray-700 mr-5" href="https://twitter.com/Qgeeraert">
+                                            <svg class="fill-current w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                <title>Twitter</title>
+                                                <path d="M6.29 18.25c7.55 0 11.67-6.25 11.67-11.67v-.53c.8-.59 1.49-1.3 2.04-2.13-.75.33-1.54.55-2.36.65a4.12 4.12 0 0 0 1.8-2.27c-.8.48-1.68.81-2.6 1a4.1 4.1 0 0 0-7 3.74 11.65 11.65 0 0 1-8.45-4.3 4.1 4.1 0 0 0 1.27 5.49C2.01 8.2 1.37 8.03.8 7.7v.05a4.1 4.1 0 0 0 3.3 4.03 4.1 4.1 0 0 1-1.86.07 4.1 4.1 0 0 0 3.83 2.85A8.23 8.23 0 0 1 0 16.4a11.62 11.62 0 0 0 6.29 1.84"></path>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container mx-auto px-4 pb-16">
+
+            {% block wrapper_wrapper %}
+                
+                {% block flash_messages %}
+                    {{ include(ea.templatePath('flash_messages')) }}
+                {% endblock flash_messages %}
+
+                {% block wrapper %}
+
+                    <div class="w-full max-w-screen-xl mx-auto px-6">
+                        <div class="lg:flex -mx-6">
+                            <div id="sidebar" class="fixed inset-0 h-full bg-white dark:bg-blue-regal-dark z-10 w-full border-b -mb-16 lg:-mb-0 lg:static lg:h-auto lg:overflow-y-visible lg:border-b-0 lg:pt-0 lg:w-1/4 lg:block lg:border-0 xl:w-1/5 hidden pt-24">
+                                <div class="h-full overflow-y-auto scrolling-touch lg:h-auto lg:block lg:relative lg:sticky lg:bg-transparent overflow-hidden lg:top-0 bg-gray-100 dark:bg-blue-regal-dark">
+                                    <div class="hidden lg:block h-16 pointer-events-none absolute inset-x-0 z-10"></div>
+                                    <nav id="nav" class="px-6 pt-12 overflow-y-auto text-base lg:text-sm lg:py-12 lg:pl-6 lg:pr-8 sticky?lg:h-screen">
+                                        <div class="mb-10">
+                                            {% block sidebar %}
+                                                {% block main_menu_wrapper %}
+                                                    {{ include(ea.templatePath('main_menu')) }}
+                                                {% endblock main_menu_wrapper %}
+                                            {% endblock %}
+                                        </div>
+                                    </nav>
+                                </div>
+                            </div>
+
+                            <div id="content-wrapper" class="min-h-screen w-full lg:static lg:max-h-full lg:overflow-visible lg:w-3/4 xl:w-4/5">
+                                <div id="content">
+                                    <div id="app" class="flex">
+                                        <div class="w-full pt-12">
+                                            <div class="markdown mb-6 px-6 max-w-3xl mx-auto lg:ml-0 lg:mr-auto xl:mx-0 xl:px-12 xl:w-3/4">
+                                                <div class="flex items-center markdown">
+                                                    <h1 class="dark:text-white">
+                                                        {% set has_help_message = (ea.crud.helpMessage ?? '') is not empty %}
+                                                
+                                                        {% block content_title %}{% endblock %}
+
+                                                        {% block content_help %}
+                                                            {% if has_help_message %}
+                                                                <span class="content-header-help">
+                                                                    <i class="far fa-question-circle" data-toggle="tooltip" title="{{ ea.crud.helpMessage|e('html_attr') }}"></i>
+                                                                </span>
+                                                            {% endif %}
+                                                        {% endblock %}
+                                                    </h1>
+                                                </div>
+                                            </div>
+                                            <div class="flex">
+                                                <div class="markdown px-6 xl:px-12 w-full mx-auto lg:ml-0 lg:mr-auto xl:mx-0">
+
+                                                    <div class="text-right mb-4">
+                                                        {% block page_actions_wrapper %}
+                                                            <div class="page-actions">{% block page_actions %}{% endblock %}</div>
+                                                        {% endblock %}
+                                                    </div>
+                                                    
+                                                    {% block main %}{% endblock %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    
+                        </div>
+                    </div>
+
+                {% endblock %}
+
+            {% endblock wrapper_wrapper %}
+
+            {% block body_javascript %}
+                {{ encore_entry_script_tags('app') }}
+            {% endblock body_javascript %}
+
+            {% block configured_javascripts %}
+                {% for js_asset in ea.assets.jsFiles ?? [] %}
+                    <script src="{{ asset(js_asset) }}"></script>
+                {% endfor %}
+            {% endblock %}
+
+            {% block configured_body_contents %}
+                {% for htmlContent in ea.assets.bodyContents ?? [] %}
+                    {{ htmlContent|raw }}
+                {% endfor %}
+            {% endblock %}
+
+        </div>
+    </body>
+{% endblock body %}
