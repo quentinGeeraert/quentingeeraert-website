@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\BackOffice\Crud;
+namespace App\Controller\EasyAdmin\Crud;
 
 use App\Entity\Skill;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;

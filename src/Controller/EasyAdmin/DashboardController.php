@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\BackOffice;
+namespace App\Controller\EasyAdmin;
 
 use App\Entity\Article;
 use App\Entity\Experience;
