@@ -19,19 +19,6 @@ class ProjectPortfolioRepository extends ServiceEntityRepository
         parent::__construct($registry, ProjectPortfolio::class);
     }
 
-    /**
-     * @return ProjectPortfolio[] Returns an array of ProjectPortfolio objects
-     */
-    public function findOnline()
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.is_online = :val')
-            ->setParameter('val', true)
-            ->orderBy('p.id', 'ASC')
-            ->getQuery()
-            ->getResult();
-    }
-
     /*
     public function findOneBySomeField($value): ?ProjectPortfolio
     {

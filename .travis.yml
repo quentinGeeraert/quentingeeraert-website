@@ -21,14 +21,12 @@ jobs:
 before_install:
   - cp .env.test .env
   - composer self-update
+  - npm install -g node@latest
+  - npm install -g npm@latest
 
 install:
   - php -r "echo ini_get('memory_limit').PHP_EOL;"
-  - composer install --prefer-dist --no-interaction
-  - php ./bin/phpunit install
-  - npm install -g node@12.5.0
-  - npm install --loglevel=error
-  - npm run build
+  - make install
 
 script:
   - make lint

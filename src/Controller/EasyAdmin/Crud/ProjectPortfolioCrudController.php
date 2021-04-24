@@ -41,7 +41,6 @@ class ProjectPortfolioCrudController extends AbstractCrudController
 
             CollectionField::new('pictures')->onlyOnForms(),
 
-            /* @phpstan-ignore-next-line */
             ChoiceField::new('categories')
                 ->allowMultipleChoices()
                 ->setChoices(array_combine($arrCategories, $arrCategories))
