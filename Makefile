@@ -28,6 +28,7 @@ help: ## Outputs this help screen
 install: ## Install composer, npm and bundles
 	$(COMPOSER) install --prefer-dist --no-interaction
 	$(EXEC_PHP) ./bin/phpunit install
+	$(NPM) install -g node@12.5.0
 	$(NPM) install --force --loglevel=error
 	$(NPM) run build
 	$(MAKE) bundles
@@ -59,9 +60,6 @@ test: phpunit.xml.dist ## Launch main functional and unit tests
 
 update: ## Update composer, npm and run tests
 	$(COMPOSER) self-update
-	$(NPM) install -g node@latest 
-	$(NPM) install -g agentkeepalive --save
-	$(NPM) install -g npm@latest
 	$(COMPOSER) update && $(COMPOSER) validate --strict
 	$(NPM) install --force --loglevel=error
 	$(NPM) run build
