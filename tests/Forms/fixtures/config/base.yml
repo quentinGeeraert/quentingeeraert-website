@@ -1,15 +1,21 @@
 framework:
-    secret:          ThisIsNotReallyASecretSoPleaseChangeIt
-    validation:      { enabled: true }
-    test: true
-    session:
-        storage_id: session.storage.mock_file
-    form: ~
+  secret: ThisIsNotReallyASecretSoPleaseChangeIt
+  validation: { enabled: true }
+  test: true
+  session:
+    storage_id: session.storage.mock_file
+  form: ~
 
 twig:
-    strict_variables: true
+  strict_variables: true
 
 services:
-    karser_recaptcha3.google.recaptcha:
-        class: Karser\Recaptcha3Bundle\Tests\fixtures\RecaptchaMock
-        public: true
+  karser_recaptcha3.google.recaptcha:
+    class: Karser\Recaptcha3Bundle\Tests\fixtures\RecaptchaMock
+    public: true
+  form.factory.alias:
+    alias: form.factory
+    public: true
+  twig.alias:
+    alias: twig
+    public: true

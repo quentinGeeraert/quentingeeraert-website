@@ -2,16 +2,21 @@
 
 namespace App\Controller;
 
+//  Entities
 use App\Entity\Article;
 use App\Entity\ExtDatabase\Contact;
 use App\Entity\ProjectPortfolio;
 use App\Entity\User;
+// Forms
 use App\Form\ContactType;
+// Repositories
 use App\Notification\ContactNotification;
 use App\Repository\ArticleRepository;
 use App\Repository\ExperienceRepository;
 use App\Repository\ProjectPortfolioRepository;
+// Notifications
 use App\Repository\UserRepository;
+// Symfony
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,42 +24,38 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DefaultController extends AbstractController
 {
+    const QUENTIN_USER_ID = 1;
+
     /**
      * @Route("/", name="app_homepage", methods={"GET"})
      */
     public function homepage(ArticleRepository $articleRepository): Response
     {
-        $articles = $articleRepository->findBy(['is_online' => true], ['created_at' => 'DESC'], 5);
+        $limitArticlesInPage = 5;
+        $articles = $articleRepository->findBy(['is_online' => true], ['created_at' => 'DESC'], $limitArticlesInPage);
+        $buttonShowMoreArticles = ($articleRepository->count(['is_online' => true]) > $limitArticlesInPage);
 
-        return $this->render('default/homepage.html.twig', [
-            'articles' => $articles,
-        ]);
+        return $this->render('default/homepage.html.twig', compact('articles', 'buttonShowMoreArticles'));
     }
 
     /**
      * @Route("articles/{slug?}", name="app_articles", methods={"GET"})
-     *
-     * @param string|null $slug
      */
-    public function article($slug = null, ArticleRepository $articleRepository): Response
+    public function article(?string $slug = null, ArticleRepository $articleRepository): Response
     {
-        if ($slug) {
+        $h1 = 'Articles';
+        if (null !== $slug) {
             $article = $articleRepository->findOneBy(['slug' => $slug, 'is_online' => true]);
             if ($article instanceof Article) {
-                return $this->render('default/articles/show.html.twig', [
-                    'article' => $article,
-                    'h1' => $article->getTitle(),
-                ]);
+                $h1 = $article->getTitle();
+
+                return $this->render('default/articles/show.html.twig', compact('h1', 'article'));
             }
             throw $this->createNotFoundException('No article found for slug '.$slug);
         }
-
         $articles = $articleRepository->findBy(['is_online' => true], ['created_at' => 'DESC']);
 
-        return $this->render('default/articles/index.html.twig', [
-            'h1' => 'Articles',
-            'articles' => $articles,
-        ]);
+        return $this->render('default/articles/index.html.twig', compact('h1', 'articles'));
     }
 
     /**
@@ -62,11 +63,9 @@ class DefaultController extends AbstractController
      */
     public function experience(ExperienceRepository $experienceRepository): Response
     {
-        $experiences = $experienceRepository->findBy(['user' => 1]);
+        $experiences = $experienceRepository->findBy(['user' => self::QUENTIN_USER_ID]);
 
-        return $this->render('default/experiences.html.twig', [
-            'experiences' => $experiences,
-        ]);
+        return $this->render('default/experiences.html.twig', compact('experiences'));
     }
 
     /**
@@ -75,39 +74,34 @@ class DefaultController extends AbstractController
     public function skill(UserRepository $userRepository): Response
     {
         $skills = [];
-        $user = $userRepository->findOneBy(['id' => 1]);
-
+        $viewType = 'gallery';
+        $user = $userRepository->findOneBy(['id' => self::QUENTIN_USER_ID]);
         if ($user instanceof User) {
             $skills = $user->getSkills();
         }
 
-        return $this->render('default/skills.html.twig', [
-            'skills' => $skills,
-        ]);
+        return $this->render('default/skills.html.twig', compact('skills', 'viewType'));
     }
 
     /**
      * @Route("portfolio/{slug?}", name="app_portfolio", methods={"GET"})
-     *
-     * @param string|null $slug
      */
-    public function portfolio($slug = null, ProjectPortfolioRepository $projectPortfolioRepository): Response
+    public function portfolio(?string $slug = null, ProjectPortfolioRepository $projectPortfolioRepository): Response
     {
-        if ($slug) {
+        $h1 = 'Portfolio';
+        $viewType = 'gallery';
+        if (null !== $slug) {
             $projectPortfolio = $projectPortfolioRepository->findOneBy(['slug' => $slug, 'is_online' => true]);
             if ($projectPortfolio instanceof ProjectPortfolio) {
-                return $this->render('default/portfolio/show.html.twig', [
-                    'projectPortfolio' => $projectPortfolio,
-                    'h1' => $projectPortfolio->getName(),
-                ]);
+                $h1 = $projectPortfolio->getName();
+
+                return $this->render('default/portfolio/show.html.twig', compact('h1', 'projectPortfolio'));
             }
             throw $this->createNotFoundException('No project portfolio found for slug '.$slug);
         }
+        $projectsPortfolio = $projectPortfolioRepository->findBy(['is_online' => true]);
 
-        return $this->render('default/portfolio/index.html.twig', [
-            'projects' => $projectPortfolioRepository->findOnline(),
-            'type' => 'gallery',
-        ]);
+        return $this->render('default/portfolio/index.html.twig', compact('h1', 'projectsPortfolio', 'viewType'));
     }
 
     /**

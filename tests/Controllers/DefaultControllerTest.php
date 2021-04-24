@@ -2,13 +2,13 @@
 
 namespace App\Tests\Controllers;
 
-use App\Entity\User;
 use App\Entity\Article;
 use App\Entity\ProjectPortfolio;
+use App\Entity\User;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class DefaultControllerTest extends WebTestCase
 {

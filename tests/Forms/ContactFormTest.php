@@ -47,7 +47,7 @@ class ContactFormTest extends TestCase
     }
 
     /** ------------------------------- TESTS ------------------------------- */
-    public function testFormInvalid_ifFirstnameEmpty(): void
+    public function testFormInvalidIfFirstnameEmpty(): void
     {
         //GIVEN
         $container = $this->bootKernel('default.yml');
@@ -68,7 +68,7 @@ class ContactFormTest extends TestCase
         $this->assertFormHasError($form);
     }
 
-    public function testFormInvalid_ifFirstnameNull(): void
+    public function testFormInvalidIfFirstnameNull(): void
     {
         //GIVEN
         $container = $this->bootKernel('default.yml');
@@ -89,7 +89,7 @@ class ContactFormTest extends TestCase
         $this->assertFormHasError($form);
     }
 
-    public function testFormInvalid_ifFirstnameLessThanMinLength(): void
+    public function testFormInvalidIfFirstnameLessThanMinLength(): void
     {
         //GIVEN
         $container = $this->bootKernel('default.yml');
@@ -110,7 +110,7 @@ class ContactFormTest extends TestCase
         $this->assertFormHasError($form);
     }
 
-    public function testFormInvalid_ifFirstnameMoreThanMaxLength(): void
+    public function testFormInvalidIfFirstnameMoreThanMaxLength(): void
     {
         //GIVEN
         $container = $this->bootKernel('default.yml');
@@ -131,7 +131,7 @@ class ContactFormTest extends TestCase
         $this->assertFormHasError($form);
     }
 
-    public function testFormInvalid_ifLastnameEmpty(): void
+    public function testFormInvalidIfLastnameEmpty(): void
     {
         //GIVEN
         $container = $this->bootKernel('default.yml');
@@ -152,7 +152,7 @@ class ContactFormTest extends TestCase
         $this->assertFormHasError($form);
     }
 
-    public function testFormInvalid_ifLastnameNull(): void
+    public function testFormInvalidIfLastnameNull(): void
     {
         //GIVEN
         $container = $this->bootKernel('default.yml');
@@ -173,7 +173,7 @@ class ContactFormTest extends TestCase
         $this->assertFormHasError($form);
     }
 
-    public function testFormInvalid_ifLastnameLessThanMinLength(): void
+    public function testFormInvalidIfLastnameLessThanMinLength(): void
     {
         //GIVEN
         $container = $this->bootKernel('default.yml');
@@ -194,7 +194,7 @@ class ContactFormTest extends TestCase
         $this->assertFormHasError($form);
     }
 
-    public function testFormInvalid_ifLastnameMoreThanMaxLength(): void
+    public function testFormInvalidIfLastnameMoreThanMaxLength(): void
     {
         //GIVEN
         $container = $this->bootKernel('default.yml');
@@ -215,7 +215,7 @@ class ContactFormTest extends TestCase
         $this->assertFormHasError($form);
     }
 
-    public function testFormInvalid_ifEmailEmpty(): void
+    public function testFormInvalidIfEmailEmpty(): void
     {
         //GIVEN
         $container = $this->bootKernel('default.yml');
@@ -236,7 +236,7 @@ class ContactFormTest extends TestCase
         $this->assertFormHasError($form);
     }
 
-    public function testFormInvalid_ifEmailNull(): void
+    public function testFormInvalidIfEmailNull(): void
     {
         //GIVEN
         $container = $this->bootKernel('default.yml');
@@ -257,7 +257,7 @@ class ContactFormTest extends TestCase
         $this->assertFormHasError($form);
     }
 
-    public function testFormInvalid_ifEmailFails(): void
+    public function testFormInvalidIfEmailFails(): void
     {
         //GIVEN
         $container = $this->bootKernel('default.yml');
@@ -278,7 +278,7 @@ class ContactFormTest extends TestCase
         $this->assertFormHasError($form);
     }
 
-    public function testFormInvalid_ifMessageEmpty(): void
+    public function testFormInvalidIfMessageEmpty(): void
     {
         //GIVEN
         $container = $this->bootKernel('default.yml');
@@ -299,7 +299,7 @@ class ContactFormTest extends TestCase
         $this->assertFormHasError($form);
     }
 
-    public function testFormInvalid_ifMessageNull(): void
+    public function testFormInvalidIfMessageNull(): void
     {
         //GIVEN
         $container = $this->bootKernel('default.yml');
@@ -320,7 +320,7 @@ class ContactFormTest extends TestCase
         $this->assertFormHasError($form);
     }
 
-    public function testFormInvalid_ifMessageLessThanMinLength(): void
+    public function testFormInvalidIfMessageLessThanMinLength(): void
     {
         //GIVEN
         $container = $this->bootKernel('default.yml');
@@ -341,7 +341,7 @@ class ContactFormTest extends TestCase
         $this->assertFormHasError($form);
     }
 
-    public function testFormJavascriptPresent_ifEnabled(): void
+    public function testFormJavascriptPresentIfEnabled(): void
     {
         //GIVEN
         $this->bootKernel('default.yml');
@@ -354,12 +354,12 @@ class ContactFormTest extends TestCase
 
         //THEN
         self::assertContains('<input type="hidden" id="contact_captcha" name="contact[captcha]" />', $view);
-        self::assertContains('<script type="text/javascript" src="https://www.google.com/recaptcha/api.js?render=key&onload=recaptchaCallback_contact_captcha" async defer></script>', $view);
+        self::assertContains('<script type="text/javascript" src="https://www.google.com/recaptcha/api.js?render=key&onload=recaptchaCallback_contact_captcha" async defer nonce=""></script>', $view);
         self::assertContains('var recaptchaCallback_contact_captcha', $view);
         self::assertContains("document.getElementById('contact_captcha').value = token;", $view);
     }
 
-    public function testFormJavascriptAbsent_ifDisabled(): void
+    public function testFormJavascriptAbsentIfDisabled(): void
     {
         //GIVEN
         $this->bootKernel('disabled.yml');
@@ -376,7 +376,7 @@ class ContactFormTest extends TestCase
         self::assertNotContains("document.getElementById('contact_captcha').value = token;", $view);
     }
 
-    public function testFormValid_ifEnabled(): void
+    public function testFormValidIfEnabled(): void
     {
         //GIVEN
         $container = $this->bootKernel('default.yml');
@@ -395,7 +395,7 @@ class ContactFormTest extends TestCase
         self::assertTrue($form->isValid());
     }
 
-    public function testFormInvalid_ifCaptchaFails(): void
+    public function testFormInvalidIfCaptchaFails(): void
     {
         //GIVEN
         $container = $this->bootKernel('default.yml');
@@ -414,7 +414,7 @@ class ContactFormTest extends TestCase
         $this->assertFormHasError($form, 'There were problems with your captcha. Please try again or contact with support and provide following code(s): "test1; test2"');
     }
 
-    public function testFormInvalid_ifCaptchaEmpty(): void
+    public function testFormInvalidIfCaptchaEmpty(): void
     {
         //GIVEN
         $container = $this->bootKernel('default.yml');
@@ -435,7 +435,7 @@ class ContactFormTest extends TestCase
         $this->assertFormHasError($form, 'The captcha value is missing');
     }
 
-    public function testFormInvalid_ifCaptchaNull(): void
+    public function testFormInvalidIfCaptchaNull(): void
     {
         //GIVEN
         $container = $this->bootKernel('default.yml');
@@ -456,7 +456,7 @@ class ContactFormTest extends TestCase
         $this->assertFormHasError($form, 'The captcha value is missing');
     }
 
-    public function testFormInvalid_ifCaptchaUndefined(): void
+    public function testFormInvalidIfCaptchaUndefined(): void
     {
         //GIVEN
         $container = $this->bootKernel('default.yml');
@@ -477,7 +477,7 @@ class ContactFormTest extends TestCase
         $this->assertFormHasError($form, 'The captcha value is missing');
     }
 
-    public function testFormValid_ifCaptchaFails_butDisabled(): void
+    public function testFormValidIfCaptchaFailsButDisabled(): void
     {
         //GIVEN
         $container = $this->bootKernel('disabled.yml');
@@ -516,8 +516,9 @@ class ContactFormTest extends TestCase
         $this->kernel->setConfigurationFilename(__DIR__.'/fixtures/config/'.$config);
         $this->kernel->boot();
         $container = $this->kernel->getContainer();
-        $this->formFactory = $container->get('form.factory');
-        $this->twig = $container->get('twig');
+
+        $this->formFactory = $container->get('form.factory.alias');
+        $this->twig = $container->get('twig.alias');
 
         return $container;
     }

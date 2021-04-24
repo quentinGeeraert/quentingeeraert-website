@@ -13,40 +13,6 @@ arrayActionSidebar.forEach(function (id) {
   })
 })
 
-/* Setting prefers-color-scheme */
-const rules = document.styleSheets[0].rules
-global.setPreferredColorScheme = function (mode) {
-  for (var i = rules.length - 1; i >= 0; i--) {
-    var rule = rules[i].media
-    if (rule.mediaText.includes('prefers-color-scheme')) {
-      switch (mode) {
-        case 'light':
-          rule.appendMedium('original-prefers-color-scheme')
-          if (rule.mediaText.includes('light'))
-            rule.deleteMedium('(prefers-color-scheme: light)')
-          if (rule.mediaText.includes('dark'))
-            rule.deleteMedium('(prefers-color-scheme: dark)')
-          break
-
-        case 'dark':
-          rule.appendMedium('(prefers-color-scheme: light)')
-          rule.appendMedium('(prefers-color-scheme: dark)')
-          if (rule.mediaText.includes('original'))
-            rule.deleteMedium('original-prefers-color-scheme')
-          break
-
-        default:
-          rule.appendMedium('(prefers-color-scheme: dark)')
-          if (rule.mediaText.includes('light'))
-            rule.deleteMedium('(prefers-color-scheme: light)')
-          if (rule.mediaText.includes('original'))
-            rule.deleteMedium('original-prefers-color-scheme')
-      }
-      break
-    }
-  }
-}
-
 /* Create anchor links */
 global.createAnchorLinksByTagName = function (elt) {
   var h = document.getElementsByTagName(elt)
@@ -78,4 +44,67 @@ global.createAnchorLinksByTagName = function (elt) {
     li.append(a)
     ul.append(li)
   })
+}
+
+/* Animations intersection observer */
+if (typeof IntersectionObserver !== 'undefined') {
+  const ratio = 0.1
+  const options = {
+    root: null,
+    rootMargin: '0px',
+    threshold: ratio
+  }
+  const handleIntersect = function (entries, observer) {
+    entries.forEach(function (entry) {
+      if (entry.intersectionRatio > ratio) {
+        entry.target.classList.remove('reveal')
+        observer.unobserve(entry.target)
+      }
+    })
+  }
+  /* eslint-env browser */
+  const observer = new IntersectionObserver(handleIntersect, options)
+  document.querySelectorAll('.reveal').forEach(function (r) {
+    observer.observe(r)
+  })
+} else {
+  document.querySelectorAll('.reveal').forEach(function (r) {
+    r.classList.remove('reveal')
+  })
+}
+
+/* Homepage header animation */
+const headerTextElement = document.getElementById('header-text')
+if (headerTextElement) {
+  window.addEventListener('scroll', function () {
+    var marginTop = Math.min(Math.max(parseFloat(window.scrollY / 100), 0), 3)
+    headerTextElement.style.marginTop = marginTop + '%'
+  })
+}
+
+/* Toggle themeMode dark/light */
+const arrayActionModeSlider = ['mode_slider', 'mode_slider_mobile']
+const elementLabel = document.getElementById('mode_slider_mobile_label')
+
+function synchroThemeModeSlider () {
+  arrayActionModeSlider.forEach(function (id) {
+    document.getElementById(id).checked =
+      localStorage.getItem('prefers-color-scheme') === 'light'
+  })
+}
+
+function toggleThemeMode () {
+  var mode = localStorage.getItem('prefers-color-scheme')
+  /* global setPreferredColorScheme */
+  if (mode === 'light') setPreferredColorScheme('dark')
+  else setPreferredColorScheme('light')
+  synchroThemeModeSlider()
+}
+
+if (elementLabel) {
+  arrayActionModeSlider.forEach(function (id) {
+    document.getElementById(id).addEventListener('change', toggleThemeMode)
+    synchroThemeModeSlider()
+  })
+  elementLabel.addEventListener('click', toggleThemeMode)
 }
