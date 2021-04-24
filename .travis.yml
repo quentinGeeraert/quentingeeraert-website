@@ -21,8 +21,8 @@ jobs:
 before_install:
   - cp .env.test .env
   - composer self-update
-  - npm install -g node@latest
-  - npm install -g npm@latest
+  - npm install -g node
+  - npm install -g npm
 
 install:
   - php -r "echo ini_get('memory_limit').PHP_EOL;"
