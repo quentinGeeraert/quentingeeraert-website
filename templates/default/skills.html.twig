@@ -1,17 +1,30 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    
-    <p class="mb-8 text-gray-600 dark:text-gray-500">The main area of ​​my expertise is back-end development.</p>
 
-    <div class="grid grid-cols-2 md:grid-cols-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-8">
+    {% set categories = (skills|map(s => s.category)|reduce((unique, item) => item in unique ? unique : unique|merge([item]), [])) %}
 
-    {% for skill in skills | sort((a,b) => a.name <=> b.name) %}
-        
-        <img width="w-full" src="{{ skill.logo }}" alt="{{ skill.name }}" title="{{ skill.name }}"/>
+    {% for category in categories %}
+        <h2 class="reveal transition duration-1000 text-center font-bold text-lg mb-8 {{ loop.first == false ? 'mt-8' }} dark:text-white">{{ category }}</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-8 place-items-center">
+        {% for skill in skills | filter(s => s.category == category) | sort((a,b) => a.category <=> b.category) %}
+
+            <div class="reveal transition duration-1000 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-800 flex flex-col p-8 w-full">
+                <div class="w-16 h-16 inline-flex items-center justify-center rounded-full bg-green-100 text-green-500 mb-5 flex-shrink-0 p-4">
+                    <img class="w-full" src="{{ skill.logo }}" alt="{{ skill.name }}" title="{{ skill.name }}" onerror="this.onerror=null; this.src='{{ asset('build/images/no-image-icon.png') }}'" />
+                </div>
+                <div class="flex-grow dark:text-white">
+                    <h2 class="text-xl title-font font-medium mb-3">{{ skill.name | title }}</h2>
+                    <div class="leading-relaxed text-sm text-justify">
+                        {{ skill.description | raw }}
+                    </div>
+                </div>
+            </div>
+
+        {% endfor %}
+        </div>
 
     {% endfor %}
-
-    </div>
 
 {% endblock %}

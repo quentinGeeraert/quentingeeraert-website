@@ -1,7 +1,7 @@
 <div id="sidebar" class="fixed inset-0 h-full bg-white dark:bg-blue-regal-dark z-10 w-full border-b -mb-16 lg:-mb-0 lg:static lg:h-auto lg:overflow-y-visible lg:border-b-0 lg:pt-0 lg:w-1/4 lg:block lg:border-0 xl:w-1/5 hidden pt-24">
 	<div id="navWrapper" class="h-full overflow-y-auto scrolling-touch lg:h-auto lg:block lg:relative lg:sticky lg:bg-transparent overflow-hidden lg:top-0 bg-gray-100 dark:bg-blue-regal-dark">
 		<div class="hidden lg:block h-16 pointer-events-none absolute inset-x-0 z-10"></div>
-		<nav id="nav" class="px-6 pt-6 overflow-y-auto text-base lg:text-sm lg:py-12 lg:pl-6 lg:pr-8 sticky?lg:h-screen">
+		<nav id="nav" class="h-auto px-6 pt-6 overflow-y-auto text-base lg:text-sm lg:py-12 lg:pl-6 lg:pr-8 sticky?lg:h-auto max-h-screen">
 			<div class="mb-10">
 				<a href="{{ path('app_homepage') }}" class="flex items-center px-2 -mx-2 py-1 hover:text-gray-900 dark:hover:text-gray-400 font-medium text-gray-900 dark:text-gray-400">
 					<svg class="h-6 w-6" viewbox="0 0 24 24">
@@ -40,6 +40,15 @@
 					</svg>
 					<span class="ml-3">Contact</span>
 				</a>
+			</div>
+			<div class="mb-10 lg:hidden">
+				<div class="flex items-center px-2 -mx-2 py-1 font-medium mt-3 lg:mt-1 text-gray-600">
+					<label class="switch_mode transform scale-75">
+						<input type="checkbox" id="mode_slider_mobile">
+						<span class="mode_slider round"></span>
+					</label>
+					<span class="ml-3" id="mode_slider_mobile_label">Theme</span>
+				</div>
 			</div>
 		</nav>
 	</div>

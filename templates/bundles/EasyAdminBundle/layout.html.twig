@@ -1,7 +1,7 @@
 {% extends '@!EasyAdmin/layout.html.twig' %}
 
-{% block body %}
-
+{% block head_stylesheets %}
+    {{ parent() }}
     <style>
         label, legend { font-size: 1.125rem !important; font-weight: 500 !important; }
         legend { text-align: inherit !important; margin-bottom: -1rem !important; }
@@ -9,33 +9,29 @@
         .field-boolean .form-widget { margin-left: 0; }
         .form-group .col-form-label.required:after, .form-group label.required:after { z-index: 1 !important; }
     </style>
+{% endblock %}
+
+{% block body %}
 
     {% set has_page_footer = false %}
 
     <body id="{% block body_id %}{% endblock %}" class="ea lg:overflow-visible dark:bg-blue-regal-dark {% block body_class %}{% endblock %}">
 
         <div class="bg-gray-100 dark:bg-blue-dark pt-24 lg:pt-0">
-            <div class="fixed z-50 bg-gray-100 dark:bg-blue-dark inset-x-0 top-0 border-b-2 border-gray-200 lg:border-b-0 lg:static flex items-center">
+            <div class="fixed z-50 bg-gray-100 dark:bg-blue-dark inset-x-0 top-0 border-b-2 border-gray-200 lg:border-b-0 lg:static flex items-center h-24">
                 <div class="w-full max-w-screen-xl relative mx-auto px-6">
                     <div class="lg:border-b-2 lg:border-gray-200 h-24 flex flex-col justify-center">
                         <div class="flex items-center -mx-6">
                             <div class="lg:w-1/4 xl:w-1/5 pl-6 pr-6 lg:pr-8">
                                 <div class="flex items-center">
-                                    <a class="block lg:mr-4" href="/"><img class="w-10 h-10 bg-gray-200 dark:bg-blue-dark rounded-lg p-1" src="/build/images/logo.png"></a>
+                                    <a class="block lg:mr-4" href="/"><img class="w-10 h-10 bg-gray-200 dark:bg-blue-dark rounded-lg p-1" src="/build/images/logo.png" alt="logo"></a>
                                     <span class="md:ml-2 lg:ml-1 w-auto hidden md:block font-medium border-b-2 border-blue-800 dark:text-white">Quentin GEERAERT</span>
                                 </div>
                             </div>
                             <div class="flex flex-grow min-w-0 lg:w-3/4 xl:w-4/5">
                                 <div class="w-full min-w-0 lg:px-6 xl:w-3/4 xl:px-12">
                                     <div class="relative">
-                                        <button class="transition-colors duration-100 ease-in-out text-gray-600 py-2 pr-4 pl-10 block w-full appearance-none leading-normal border border-transparent rounded-lg focus:outline-none text-left select-none truncate bg-white dark:bg-gray-400 shadow-md">Search
-                                            <span class="hidden sm:inline">the docs (Press "/" to focus)</span>
-                                        </button>
-                                        <div class="pointer-events-none absolute inset-y-0 left-0 pl-4 flex items-center">
-                                            <svg class="fill-current pointer-events-none text-gray-600 w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                                <path d="M12.9 14.32a8 8 0 1 1 1.41-1.41l5.35 5.33-1.42 1.42-5.33-5.34zM8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12z"></path>
-                                            </svg>
-                                        </div>
+                                        <span class="w-auto md:block md:hidden font-medium border-b-2 border-blue-800 dark:text-white">Quentin GEERAERT</span>
                                     </div>
                                 </div>
                                 <button type="button" id="sidebar-open" class="flex px-6 items-center lg:hidden text-gray-500 focus:outline-none focus:text-gray-700" aria-label="Open site navigation">
@@ -90,7 +86,7 @@
                         <div class="lg:flex -mx-6">
                             <div id="sidebar" class="fixed inset-0 h-full bg-white dark:bg-blue-regal-dark z-10 w-full border-b -mb-16 lg:-mb-0 lg:static lg:h-auto lg:overflow-y-visible lg:border-b-0 lg:pt-0 lg:w-1/4 lg:block lg:border-0 xl:w-1/5 hidden pt-24">
                                 <div class="h-full overflow-y-auto scrolling-touch lg:h-auto lg:block lg:relative lg:sticky lg:bg-transparent overflow-hidden lg:top-0 bg-gray-100 dark:bg-blue-regal-dark">
-                                    <div class="hidden lg:block h-16 pointer-events-none absolute inset-x-0 z-10"></div>
+                                    <div class="hidden lg:block h-24 pointer-events-none absolute inset-x-0 z-10"></div>
                                     <nav id="nav" class="px-6 pt-12 overflow-y-auto text-base lg:text-sm lg:py-12 lg:pl-6 lg:pr-8 sticky?lg:h-screen">
                                         <div class="mb-10">
                                             {% block sidebar %}
@@ -106,7 +102,7 @@
                             <div id="content-wrapper" class="min-h-screen w-full lg:static lg:max-h-full lg:overflow-visible lg:w-3/4 xl:w-4/5">
                                 <div id="content">
                                     <div id="app" class="flex">
-                                        <div class="w-full pt-12">
+                                        <div class="w-full pt-16">
                                             <div class="markdown mb-6 px-6 max-w-3xl mx-auto lg:ml-0 lg:mr-auto xl:mx-0 xl:px-12 xl:w-3/4">
                                                 <div class="flex items-center markdown">
                                                     <h1 class="dark:text-white">

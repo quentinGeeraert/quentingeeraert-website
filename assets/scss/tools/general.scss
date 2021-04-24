@@ -1,6 +1,27 @@
+*::-webkit-scrollbar {
+  width: 0.5rem;
+  height: 0.5rem;
+}
+*::-webkit-scrollbar-track {
+  background: rgba(107, 114, 128, 0.2);
+}
+*::-webkit-scrollbar-thumb {
+  background-color: rgba(107, 114, 128, 1);
+  border-radius: 0.25rem;
+}
 .grecaptcha-badge {
   @apply opacity-0;
 }
 .LI-badge-container.vertical.dark .LI-profile-pic {
   left: 50% !important;
+}
+.reveal {
+  @apply opacity-0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    @apply opacity-100;
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+  }
 }

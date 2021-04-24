@@ -1,0 +1,24 @@
+<!-- Definitions -->
+{% set meta_title = meta_title ?? 'Quentin Geeraert — Back-End Web Developer' %}
+{% set meta_description = meta_description ?? 'Back-end developer working with PHP frameworks such as Symfony, Laravel and WordPress.' %}
+
+<!-- Primary Meta Tags -->
+<title>{% block title meta_title %}</title>
+<meta name="title" content="{{ meta_title }}">
+<meta name="description" content="{{ meta_description }}">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://f96560e218e1.ngrok.io/">
+<meta property="og:title" content="{{ meta_title }}">
+<meta property="og:description" content="{{ meta_description }}">
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="https://f96560e218e1.ngrok.io/">
+<meta property="twitter:title" content="{{ meta_title }}">
+<meta property="twitter:description" content="{{ meta_description }}">
+
+<link rel="icon" type="image/png" href="{{ asset('build/images/logo.png') }}" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
